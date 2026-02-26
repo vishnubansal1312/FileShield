@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileShield AI - Document Authentication</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="glow">🛡️ FileShield</h1>
+            <p class="subtitle">Advanced Document Authentication & Threat Detection System</p>
+            <div class="status-badge" id="apiStatus">
+                <span class="status-dot"></span>
+                <span id="statusText">Connecting to server...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Upload Card -->
+            <div class="upload-card" id="uploadCard">
+                <div class="upload-content">
+                    <div class="upload-icon">📁</div>
+                    <h2>Drop your file here</h2>
+                    <p class="upload-text">or <span class="browse-text" id="browseBtn">browse</span> to choose a file</p>
+                    <input type="file" id="fileInput" hidden>
+                    
+                    <div class="file-requirements">
+                        <div class="requirement-item">
+                            <span class="req-icon">📄</span>
+                            <span>PDF, DOC, TXT, EXE, ZIP, JPG, PNG</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-icon">⚡</span>
+                            <span>Maximum size: 100MB</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="req-icon">🔒</span>
+                            <span>Secure & Private</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Section -->
+            <div class="loading-section" id="loadingSection" style="display: none;">
+                <div class="loader"></div>
+                <h3>Analyzing File</h3>
+                <p class="loading-subtitle">Our AI engine is checking the file using multiple techniques</p>
+                
+                <div class="analysis-steps">
+                    <div class="step" id="step1">
+                        <span class="step-icon">🔍</span>
+                        <span class="step-text">Magic Number Analysis</span>
+                        <span class="step-status" id="step1Status">⏳</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <span class="step-icon">📊</span>
+                        <span class="step-text">Entropy Calculation</span>
+                        <span class="step-status" id="step2Status">⏳</span>
+                    </div>
+                    <div class="step" id="step3">
+                        <span class="step-icon">🔑</span>
+                        <span class="step-text">Hash Generation</span>
+                        <span class="step-status" id="step3Status">⏳</span>
+                    </div>
+                    <div class="step" id="step4">
+                        <span class="step-icon">⚠️</span>
+                        <span class="step-text">Keyword Detection</span>
+                        <span class="step-status" id="step4Status">⏳</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h2>Analysis Report</h2>
+                    <button class="new-scan-btn" onclick="resetUpload()">+ New Scan</button>
+                </div>
+
+                <!-- File Info Card -->
+                <div class="file-info-card">
+                    <div class="file-icon-large" id="fileIcon">📄</div>
+                    <div class="file-details">
+                        <h3 id="fileName">filename.pdf</h3>
+                        <div class="file-meta">
+                            <span id="fileSize">0 bytes</span>
+                            <span class="meta-separator">•</span>
+                            <span id="fileType">Unknown</span>
+                        </div>
+                    </div>
+                    <div class="risk-indicator" id="riskIndicator">
+                        <div class="risk-level" id="riskLevel">SAFE</div>
+                        <div class="risk-score" id="riskScore">0%</div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Magic Number</div>
+                        <div class="stat-value" id="detectedType">-</div>
+                        <div class="stat-sub" id="extensionMatch">Checking...</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Entropy</div>
+                        <div class="stat-value" id="entropyValue">0.00</div>
+                        <div class="stat-sub" id="entropyDesc">/8.0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Risk Score</div>
+                        <div class="stat-value" id="riskValue">0%</div>
+                        <div class="stat-sub" id="riskDesc">Safe</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Keywords Found</div>
+                        <div class="stat-value" id="keywordCount">0</div>
+                        <div class="stat-sub" id="keywordDesc">suspicious terms</div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analysis -->
+                <div class="detailed-analysis">
+                    <h3>🔍 Detailed Analysis</h3>
+                    
+                    <div class="analysis-grid">
+                        <!-- Magic Number Details -->
+                        <div class="analysis-item">
+                            <h4>File Type Verification</h4>
+                            <table class="analysis-table">
+                                <tr>
+                                    <td>Declared Extension:</td>
+                                    <td id="declaredExt">.pdf</td>
+                                </tr>
+                                <tr>
+                                    <td>Detected Type:</td>
+                                    <td id="actualType">PDF</td>
+                                </tr>
+                                <tr>
+                                    <td>Extension Match:</td>
+                                    <td id="extMatchStatus">✅ Yes</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Entropy Details -->
+                        <div class="analysis-item">
+                            <h4>Entropy Analysis</h4>
+                            <div class="entropy-meter">
+                                <div class="meter-bar">
+                                    <div class="meter-fill" id="entropyFill" style="width: 0%"></div>
+                                </div>
+                                <div class="meter-labels">
+                                    <span>Low Risk</span>
+                                    <span>High Risk</span>
+                                </div>
+                            </div>
+                            <p id="entropyInterpretation">Normal entropy level</p>
+                        </div>
+
+                        <!-- Hash Section -->
+                        <div class="analysis-item full-width">
+                            <h4>Cryptographic Hashes</h4>
+                            <div class="hash-container">
+                                <div class="hash-box">
+                                    <span class="hash-label">SHA-256:</span>
+                                    <span class="hash-value" id="sha256Hash">-</span>
+                                    <button class="copy-btn" onclick="copyHash()">📋</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keywords Found Section -->
+                <div class="keywords-section" id="keywordsSection" style="display: none;">
+                    <h3>⚠️ Suspicious Keywords Detected</h3>
+                    <div class="keywords-cloud" id="keywordsCloud"></div>
+                </div>
+
+                <!-- Reasons Section -->
+                <div class="reasons-section" id="reasonsSection">
+                    <h3>📋 Analysis Findings</h3>
+                    <ul class="reasons-list" id="reasonsList"></ul>
+                </div>
+            </div>
+            <!-- History Section -->
+<div class="history-section" id="historySection" style="display: none;">
+    <div class="history-header">
+        <h2>📋 Scan History</h2>
+        <button class="close-history" onclick="toggleHistory()">✕</button>
+    </div>
+    
+    <div class="history-filters">
+        <input type="text" id="historySearch" placeholder="Search files..." class="history-search">
+        <select id="historyFilter" class="history-filter">
+            <option value="all">All Files</option>
+            <option value="safe">Safe Only</option>
+            <option value="fake">Fake Only</option>
+        </select>
+        <button class="clear-history-btn" onclick="clearHistory()">Clear All</button>
+    </div>
+    
+    <div class="history-stats">
+        <div class="history-stat">
+            <span class="stat-label">Total Scans:</span>
+            <span class="stat-value" id="totalScans">0</span>
+        </div>
+        <div class="history-stat">
+            <span class="stat-label">Safe Files:</span>
+            <span class="stat-value safe-text" id="safeScans">0</span>
+        </div>
+        <div class="history-stat">
+            <span class="stat-label">Fake Files:</span>
+            <span class="stat-value fake-text" id="fakeScans">0</span>
+        </div>
+    </div>
+    
+    <div class="history-list" id="historyList">
+        <!-- History items will be added here -->
+        <div class="history-empty">
+            <p>No scan history yet. Upload a file to get started!</p>
+        </div>
+    </div>
+</div>
+
+<!-- History Toggle Button -->
+<button class="history-toggle-btn" onclick="toggleHistory()">📋 View History</button>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>FileShield AI © 2024 | Enterprise-Grade Document Authentication</p>
+            <p class="footer-small">Powered by C++ & Node.js | Real-time threat detection</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Build files
+backend/cpp-core/detect.exe
+backend/cpp-core/*.o
+backend/cpp-core/*.obj
+
+# Uploads
+backend/uploads/
+uploads/
+*.log
+
+# Database
+backend/scan-history.json
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# AWS
+.elasticbeanstalk/
+ebextensions/
