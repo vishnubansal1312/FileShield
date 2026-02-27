@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended = true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
